@@ -1,0 +1,164 @@
+{
+    "feature_order": [
+        "layers",
+        "embed_dim",
+        "heads",
+        "mlp_ratio",
+        "bias",
+        "log10_learning_rate",
+        "batch_size",
+        "dropout",
+        "epoch"
+    ],
+    "target_name": "val_loss",
+    "log_target": false,
+    "input_dim": 9,
+    "scaled": true,
+    "scaler_type": "StandardScaler (also embedded as buffers inside model_v1.pt)",
+    "x_mean": [
+        4.005142857142857,
+        263.75314285714285,
+        6.832,
+        3.0222857142857142,
+        0.5091428571428571,
+        -3.6266882660729545,
+        11.96342857142857,
+        0.10257143009986196,
+        10.5
+    ],
+    "x_std": [
+        1.4256735178825402,
+        93.89001881444102,
+        2.736066832934712,
+        0.813504186359584,
+        0.4999164011742825,
+        0.2581689532157421,
+        3.9998328128324956,
+        0.08042184816418363,
+        5.766281297335398
+    ],
+    "y_mean": 2.1049861907958984,
+    "y_std": 0.2944282293319702,
+    "model": {
+        "class": "NIOSurrogate",
+        "n_models": 5,
+        "hidden": 256,
+        "depth": 5,
+        "activation": "SiLU"
+    },
+    "input_transforms": {
+        "log10_learning_rate": "log10(learning_rate)",
+        "bias": "True->1, False->0"
+    },
+    "input_space": {
+        "layers": {
+            "min": 2.0,
+            "max": 6.0,
+            "allowed_values": [
+                2.0,
+                3.0,
+                4.0,
+                5.0,
+                6.0
+            ]
+        },
+        "embed_dim": {
+            "min": 128.0,
+            "max": 384.0,
+            "allowed_values": [
+                128.0,
+                192.0,
+                256.0,
+                320.0,
+                384.0
+            ]
+        },
+        "heads": {
+            "min": 4.0,
+            "max": 12.0,
+            "allowed_values": [
+                4.0,
+                6.0,
+                8.0,
+                12.0
+            ]
+        },
+        "mlp_ratio": {
+            "min": 2.0,
+            "max": 4.0,
+            "allowed_values": [
+                2.0,
+                3.0,
+                4.0
+            ]
+        },
+        "bias": {
+            "min": 0.0,
+            "max": 1.0,
+            "allowed_values": [
+                0.0,
+                1.0
+            ]
+        },
+        "log10_learning_rate": {
+            "min": -4.0,
+            "max": -3.3010299956639813,
+            "allowed_values": [
+                -4.0,
+                -3.6989700043360187,
+                -3.5228787452803374,
+                -3.3010299956639813
+            ]
+        },
+        "batch_size": {
+            "min": 8.0,
+            "max": 16.0,
+            "allowed_values": [
+                8.0,
+                16.0
+            ]
+        },
+        "dropout": {
+            "min": 0.0,
+            "max": 0.2,
+            "allowed_values": [
+                0.0,
+                0.1,
+                0.2
+            ]
+        },
+        "epoch": {
+            "min": 1.0,
+            "max": 20.0,
+            "allowed_values": [
+                1.0,
+                2.0,
+                3.0,
+                4.0,
+                5.0,
+                6.0,
+                7.0,
+                8.0,
+                9.0,
+                10.0,
+                11.0,
+                12.0,
+                13.0,
+                14.0,
+                15.0,
+                16.0,
+                17.0,
+                18.0,
+                19.0,
+                20.0
+            ]
+        }
+    },
+    "constraints": [
+        "embed_dim % heads == 0 (only these head counts appear in the data)",
+        "layers, embed_dim, heads, mlp_ratio, batch_size, epoch are integers; bias is 0/1",
+        "stay inside min/max of the training data: the surrogate is not reliable outside it"
+    ],
+    "parameter_count_formula": "layers*(4*d^2 + 2*d*h + 2*d) + 513*d + bias*(layers*(7*d + h) + d), d=embed_dim, h=embed_dim*mlp_ratio",
+    "split": "GroupShuffleSplit by hyperparameter configuration, 70/15/15"
+}
